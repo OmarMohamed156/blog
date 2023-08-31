@@ -58,14 +58,9 @@ export default function Post({}: Props) {
     return data;
   });
 
-  console.log(data);
-
   if (isLoading) {
     return <div className={classes.loading}>Loading...</div>;
   }
-
-  // // @ts-ignore
-  // console.log(error?.message);
 
   if (error) {
     // @ts-ignore
@@ -88,48 +83,7 @@ export default function Post({}: Props) {
 
       {data?.comments?.map((comment: Comment) => (
         <Comment username={comment.email} key={comment.id} body={comment.body} />
-        // <div key={comment.id}>
-        //   <p>{comment.name}</p>
-        //   <p>{comment.body}</p>
-        // </div>
       ))}
     </div>
   );
 }
-
-// export async function getServerSideProps({ params }: any) {
-//   const { id } = params;
-
-//   const queryClient = new QueryClient();
-//   await queryClient.prefetchQuery('post', async () => {
-//     const response = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`);
-//     const data = await response.json();
-//     return data;
-//   });
-
-//   return {
-//     props: {
-//       dehydratedState: dehydrate(queryClient),
-//     },
-//   };
-
-//   const postRes = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`);
-//   const post = await postRes.json();
-//   const userRes = await fetch(`https://jsonplaceholder.typicode.com/users`);
-//   const users = await userRes.json();
-//   const user = users.find((user: User) => user.id === post.userId);
-//   const commetsRes = await fetch(`https://jsonplaceholder.typicode.com/comments?postId=${id}`);
-//   const comments = await commetsRes.json();
-
-//   // add user name and image to comments
-
-//   return {
-//     props: {
-//       post: {
-//         ...post,
-//         user,
-//         comments,
-//       },
-//     },
-//   };
-// }
