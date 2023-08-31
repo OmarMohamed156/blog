@@ -40,7 +40,7 @@ This template comes with several essential features:
 - `prettier:write` – formats all files with Prettier
 
 
-### Used Package
+### Used Packages
 - `Formik` to manage addition of posts.
 - `Yup` to provide a validation schema and error messages for our formik form.
 - `React-Query` to perform Http requests (POST&GET).
