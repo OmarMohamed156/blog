@@ -5,6 +5,7 @@ import Head from 'next/head';
 import { MantineProvider, ColorScheme, ColorSchemeProvider } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 import Navbar from '../components/shared/Navbar';
+import { QueryClientProvider, QueryClient } from 'react-query';
 
 export default function App(props: AppProps & { colorScheme: ColorScheme }) {
   const { Component, pageProps } = props;
@@ -15,6 +16,7 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
     setColorScheme(nextColorScheme);
     setCookie('mantine-color-scheme', nextColorScheme, { maxAge: 60 * 60 * 24 * 30 });
   };
+  const queryClient = new QueryClient();
 
   return (
     <>
@@ -28,7 +30,9 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
         <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
           <>
             <Navbar />
-            <Component {...pageProps} />
+            <QueryClientProvider client={queryClient}>
+              <Component {...pageProps} />
+            </QueryClientProvider>
           </>
           <Notifications />
         </MantineProvider>
