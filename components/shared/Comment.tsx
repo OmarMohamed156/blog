@@ -1,12 +1,4 @@
-import {
-  createStyles,
-  Text,
-  Avatar,
-  Group,
-  TypographyStylesProvider,
-  Paper,
-  rem,
-} from '@mantine/core';
+import { createStyles, Text, Group, TypographyStylesProvider, Paper } from '@mantine/core';
 
 const useStyles = createStyles((theme) => ({
   comment: {
@@ -14,7 +6,6 @@ const useStyles = createStyles((theme) => ({
   },
 
   body: {
-    // paddingLeft: rem(54),
     paddingTop: theme.spacing.sm,
     fontSize: theme.fontSizes.sm,
   },

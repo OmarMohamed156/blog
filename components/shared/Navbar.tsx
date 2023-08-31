@@ -1,8 +1,8 @@
 import React from 'react';
-import { ColorSchemeToggle } from '../ColorSchemeToggle/ColorSchemeToggle';
-import { Burger, Button, Flex, Group, Menu, NavLink, clsx, createStyles } from '@mantine/core';
-import Link from 'next/link';
 import { links } from '../../data/headerLinks';
+import { ColorSchemeToggle } from '../ColorSchemeToggle/ColorSchemeToggle';
+import { Burger, Button, Flex, Group, Menu, clsx, createStyles } from '@mantine/core';
+import Link from 'next/link';
 
 type Props = {};
 
@@ -86,13 +86,11 @@ export default function Navbar({}: Props) {
           </Menu.Target>
           <Menu.Dropdown>
             <Flex direction="column" gap={10} px={15} py="md">
-              {links.map((link) => {
-                return (
-                  <Link key={link.label} className={classes.link} href={link.link}>
-                    {link.label}
-                  </Link>
-                );
-              })}
+              {links.map((link) => (
+                <Link key={link.label} className={classes.link} href={link.link}>
+                  {link.label}
+                </Link>
+              ))}
 
               <Flex w="100%" direction="row" justify="space-between">
                 <Link href="/createPost" className={classes.newBlogLink}>
