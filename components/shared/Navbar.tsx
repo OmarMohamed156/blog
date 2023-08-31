@@ -48,7 +48,7 @@ export default function Navbar({}: Props) {
       wrap="wrap"
     >
       <Link className={clsx(classes.link, classes.bold)} href="/">
-        Your Name
+        Omar Mohamed
       </Link>
 
       <Group className={classes.links}>
