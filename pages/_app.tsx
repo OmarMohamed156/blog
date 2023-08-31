@@ -31,6 +31,7 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
           <>
             <Navbar />
             <QueryClientProvider client={queryClient}>
+              <Notifications />
               <Component {...pageProps} />
             </QueryClientProvider>
           </>

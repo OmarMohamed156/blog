@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import {
   Box,
@@ -11,8 +11,10 @@ import {
   createStyles,
   rem,
 } from '@mantine/core';
-import { useForm } from '@mantine/form';
+import { notifications } from '@mantine/notifications';
+import { useMutation, useQueryClient } from 'react-query';
 import blogValidationSchema from '../../Validators/blog';
+import { useForm } from '@mantine/form';
 
 interface Values {
   content: string;
@@ -35,13 +37,56 @@ const useStyles = createStyles((theme) => ({
   errorMessage: {
     color: theme.colors.red[7],
   },
+  NotificationMessageContainer: {},
+  notificationMessage: {
+    position: 'absolute',
+    width: 'fit-content',
+    top: 80,
+    [theme.fn.largerThan('md')]: {
+      zIndex: 9999,
+    },
+  },
 }));
 export default function CreatePost() {
   const { classes } = useStyles();
 
-  const handleSubmit = (values: Values) => {
+  const queryClient = useQueryClient();
+
+  const createPostMutation = useMutation(
+    (newPost: Values) =>
+      fetch('https://jsonplaceholder.typicode.com/posts', {
+        method: 'POST',
+        body: JSON.stringify(newPost),
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+      }).then((response) => response.json()),
+    {
+      // Invalidate the cache when the mutation is successful
+      onSuccess: () => {
+        queryClient.invalidateQueries('posts');
+        notifications.show({
+          title: 'Success',
+          color: 'green',
+          message: 'Post submitted successfully!',
+        });
+      },
+      onError: () => {
+        notifications.show({
+          title: 'Error',
+          color: 'red',
+          message: 'Failed to submit post.',
+        });
+      },
+    }
+  );
+
+  const handleSubmit = async (values: Values) => {
+    await createPostMutation.mutateAsync(values);
+    queryClient.invalidateQueries('posts');
     console.log(values, 'values');
   };
+
   return (
     <Formik
       initialValues={{
@@ -52,7 +97,7 @@ export default function CreatePost() {
       onSubmit={handleSubmit}
       validationSchema={blogValidationSchema}
     >
-      {({ values, errors, handleChange, handleBlur }) => (
+      {({ values, errors, handleChange, handleReset, handleBlur, isSubmitting }) => (
         <>
           <Box>
             <Form className={classes.formContainer}>
@@ -92,9 +137,12 @@ export default function CreatePost() {
                 placeholder="Content goes here"
               />
               <ErrorMessage className={classes.errorMessage} name="content" component="div" />
-              <Flex direction="row" justify="flex-end">
-                <Button color="violet" w={240} type="submit">
+              <Flex gap={10} direction="row" justify="flex-end">
+                <Button disabled={isSubmitting} color="violet" w={240} type="submit">
                   Submit
+                </Button>
+                <Button onClick={handleReset} color="violet" w={240} type="submit">
+                  Reset
                 </Button>
               </Flex>
             </Form>
