@@ -1,5 +1,5 @@
 import { GetServerSideProps, GetStaticProps } from 'next';
-import { Grid } from '@mantine/core';
+import { Grid, Container } from '@mantine/core';
 import NoData from '../components/shared/NoData';
 import { BlogCard } from '../components/shared/BlogCard';
 import { QueryClient } from 'react-query';
@@ -25,6 +25,7 @@ export default function HomePage({ res: { data, error } }: Props) {
   return (
     <>
       <main
+
         style={{
           width: '100vw',
           display: 'flex',
