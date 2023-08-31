@@ -14,7 +14,7 @@ const useStyles = createStyles((theme) => ({
   },
 
   body: {
-    paddingLeft: rem(54),
+    // paddingLeft: rem(54),
     paddingTop: theme.spacing.sm,
     fontSize: theme.fontSizes.sm,
   },
@@ -27,25 +27,18 @@ const useStyles = createStyles((theme) => ({
 }));
 
 interface CommentHtmlProps {
-  postedAt: string;
   body: string;
-  author: {
-    name: string;
-    image: string;
-  };
+  username: string;
 }
 
-export function CommentHtml({ postedAt, body, author }: CommentHtmlProps) {
+export function Comment({ body, username }: CommentHtmlProps) {
   const { classes } = useStyles();
   return (
-    <Paper withBorder radius="md" className={classes.comment}>
+    <Paper withBorder radius="md" m={15} className={classes.comment}>
       <Group>
-        <Avatar src={author.image} alt={author.name} radius="xl" />
+        {/* <Avatar src={author.image} alt={author.name} radius="xl" /> */}
         <div>
-          <Text fz="sm">{author.name}</Text>
-          <Text fz="xs" c="dimmed">
-            {postedAt}
-          </Text>
+          <Text fz="sm">{username?.split('@')[0]}</Text>
         </div>
       </Group>
       <TypographyStylesProvider className={classes.body}>
