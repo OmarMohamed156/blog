@@ -89,7 +89,6 @@ export default function CreatePost() {
       setLoading(false);
     });
     queryClient.invalidateQueries('posts');
-    console.log(values, 'values');
   };
 
   return (

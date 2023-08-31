@@ -40,7 +40,6 @@ export default function Navbar({}: Props) {
   const { classes } = useStyles();
   const [opened, setOpened] = React.useState(false);
 
-  console.log(links);
 
   return (
     <Flex
