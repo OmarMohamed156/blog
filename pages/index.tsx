@@ -44,21 +44,30 @@ export default function HomePage({ data }: Props) {
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const res = await fetch('https://jsonplaceholder.typicode.com/posts');
-  const postsRes = await res.json();
-  const usersRes = await fetch('https://jsonplaceholder.typicode.com/users');
-  const users = await usersRes.json();
-  const data = postsRes.map((post: Post) => {
-    const user = users.find((user: User) => user.id === post.userId);
-    return {
-      ...post,
-      user,
-    };
-  });
+  try {
+    const res = await fetch('https://jsonplaceholder.typicode.com/posts');
+    const postsRes = await res.json();
+    const usersRes = await fetch('https://jsonplaceholder.typicode.com/users');
+    const users = await usersRes.json();
+    const data = postsRes.map((post: Post) => {
+      const user = users.find((user: User) => user.id === post.userId);
+      return {
+        ...post,
+        user,
+      };
+    });
 
-  return {
-    props: {
-      data: data?.length > 0 ? data?.slice(0, 10) : [],
-    },
-  };
+    return {
+      props: {
+        data: data?.length > 0 ? data?.slice(0, 10) : [],
+      },
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      props: {
+        data: [],
+      },
+    };
+  }
 };
