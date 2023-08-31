@@ -15,6 +15,12 @@ const useStyles = createStyles((theme) => ({
       color: theme.colorScheme === 'dark' ? '#fff' : theme.colors.dark[7],
     },
   },
+
+  newBlogLink: {
+    color: '#fff',
+    textDecoration: 'none',
+    transition: 'color 200ms ease',
+  },
   bold: {
     fontWeight: 700,
     fontSize: theme.fontSizes.lg,
@@ -60,7 +66,11 @@ export default function Navbar({}: Props) {
           );
         })}
 
-        <Button color="violet">New Blog</Button>
+        <Button color="violet">
+          <Link href="/createPost" className={classes.newBlogLink}>
+            New Blog
+          </Link>
+        </Button>
 
         <ColorSchemeToggle />
       </Group>
