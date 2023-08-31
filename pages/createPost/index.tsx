@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   Checkbox,
+  Loader,
   Flex,
   Group,
   TextInput,
@@ -49,6 +50,7 @@ const useStyles = createStyles((theme) => ({
 }));
 export default function CreatePost() {
   const { classes } = useStyles();
+  const [loading, setLoading] = useState<boolean>(false);
 
   const queryClient = useQueryClient();
 
@@ -82,7 +84,10 @@ export default function CreatePost() {
   );
 
   const handleSubmit = async (values: Values) => {
-    await createPostMutation.mutateAsync(values);
+    setLoading(true);
+    await createPostMutation.mutateAsync(values).then(() => {
+      setLoading(false);
+    });
     queryClient.invalidateQueries('posts');
     console.log(values, 'values');
   };
@@ -138,11 +143,8 @@ export default function CreatePost() {
               />
               <ErrorMessage className={classes.errorMessage} name="content" component="div" />
               <Flex gap={10} direction="row" justify="flex-end">
-                <Button disabled={isSubmitting} color="violet" w={240} type="submit">
-                  Submit
-                </Button>
-                <Button onClick={handleReset} color="violet" w={240} type="submit">
-                  Reset
+                <Button disabled={loading} color="violet" w={240} type="submit">
+                  {loading ? <Loader size="sm" /> : 'Submit'}
                 </Button>
               </Flex>
             </Form>
