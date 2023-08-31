@@ -6,6 +6,7 @@ import { MantineProvider, ColorScheme, ColorSchemeProvider } from '@mantine/core
 import { Notifications } from '@mantine/notifications';
 import Navbar from '../components/shared/Navbar';
 import { QueryClientProvider, QueryClient } from 'react-query';
+import ErrorBoundary from '../components/shared/ErrorBoundry';
 
 export default function App(props: AppProps & { colorScheme: ColorScheme }) {
   const { Component, pageProps } = props;
@@ -28,13 +29,13 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
 
       <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
         <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
-          <>
-            <Navbar />
-            <QueryClientProvider client={queryClient}>
-              <Notifications />
+          <Navbar />
+          <QueryClientProvider client={queryClient}>
+            <Notifications />
+            <ErrorBoundary>
               <Component {...pageProps} />
-            </QueryClientProvider>
-          </>
+            </ErrorBoundary>
+          </QueryClientProvider>
           <Notifications />
         </MantineProvider>
       </ColorSchemeProvider>
