@@ -1,24 +1,27 @@
-import { Welcome } from '../components/Welcome/Welcome';
-import { ColorSchemeToggle } from '../components/ColorSchemeToggle/ColorSchemeToggle';
-import Navbar from '../components/shared/Navbar';
 import { GetServerSideProps, GetStaticProps } from 'next';
-import { Container, Flex, Grid, Skeleton, createStyles } from '@mantine/core';
+import { Grid } from '@mantine/core';
 import NoData from '../components/shared/NoData';
 import { BlogCard } from '../components/shared/BlogCard';
+import { QueryClient } from 'react-query';
+import { dehydrate } from 'react-query/hydration';
 
 interface Props {
   title: string;
-  data: Post[];
+  res: {
+    data: Post[];
+    error?: string | null;
+  };
 }
 
-export default function HomePage({ data }: Props) {
-  if (data?.length === 0 || !data) {
+export default function HomePage({ res: { data, error } }: Props) {
+  if (data?.length === 0 || error) {
     return (
       <>
         <NoData />
       </>
     );
   }
+
   return (
     <>
       <main
@@ -28,7 +31,7 @@ export default function HomePage({ data }: Props) {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          padding: '2rem',
+          padding: '5rem',
         }}
       >
         <Grid>
@@ -43,12 +46,14 @@ export default function HomePage({ data }: Props) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+const fetchData = async () => {
   try {
     const res = await fetch('https://jsonplaceholder.typicode.com/posts');
     const postsRes = await res.json();
+
     const usersRes = await fetch('https://jsonplaceholder.typicode.com/users');
     const users = await usersRes.json();
+
     const data = postsRes.map((post: Post) => {
       const user = users.find((user: User) => user.id === post.userId);
       return {
@@ -58,16 +63,25 @@ export const getServerSideProps: GetServerSideProps = async () => {
     });
 
     return {
-      props: {
-        data: data?.length > 0 ? data?.slice(0, 10) : [],
-      },
+      data: data?.slice(0, 4),
+      error: null,
     };
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
     return {
-      props: {
-        data: [],
-      },
+      data: [],
+      error: error?.message,
     };
   }
+};
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery('postsData', fetchData);
+
+  const res: any = dehydrate(queryClient)?.queries[0]?.state?.data;
+  return {
+    props: {
+      res,
+    },
+  };
 };
