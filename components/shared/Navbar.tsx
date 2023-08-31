@@ -66,11 +66,9 @@ export default function Navbar({}: Props) {
           );
         })}
 
-        <Button color="violet">
-          <Link href="/createPost" className={classes.newBlogLink}>
-            New Blog
-          </Link>
-        </Button>
+        <Link href="/createPost" className={classes.newBlogLink}>
+          <Button color="violet">New Blog</Button>
+        </Link>
 
         <ColorSchemeToggle />
       </Group>
@@ -97,7 +95,9 @@ export default function Navbar({}: Props) {
               })}
 
               <Flex w="100%" direction="row" justify="space-between">
-                <Button color="violet">New Blog</Button>
+                <Link href="/createPost" className={classes.newBlogLink}>
+                  <Button color="violet">New Blog</Button>
+                </Link>
                 <ColorSchemeToggle />
               </Flex>
             </Flex>
