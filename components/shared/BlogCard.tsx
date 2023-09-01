@@ -10,6 +10,9 @@ const useStyles = createStyles((theme) => ({
     alignItems: 'flex-start',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
+    border: `1px solid ${
+      theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[2]
+    }`,
   },
 
   title: {
@@ -47,14 +50,14 @@ export function BlogCard({ post }: ArticleCardImageProps) {
       <Paper shadow="md" p="xl" radius="md" className={classes.card}>
         <div>
           <Title order={5} className={classes.title}>
-            {post.title?.slice(0, 15)}
+            {post.title}
           </Title>
           <Text size="sm" mt={15} className={classes.authorName}>
             {post.user?.name}
           </Text>
         </div>
         <Text size="sm" mt={15} className={classes.category}>
-          {post.body?.slice(0, 100)}
+          {post.body}
         </Text>
       </Paper>
     </Link>
