@@ -1,3 +1,4 @@
+
 # Mantine Next Template
 
 Get started with Mantine + Next with just a few button clicks.
@@ -37,3 +38,14 @@ This template comes with several essential features:
 - `storybook` – starts storybook dev server
 - `storybook:build` – build production storybook bundle to `storybook-static`
 - `prettier:write` – formats all files with Prettier
+
+
+### Used Package
+- `Formik` to manage addition of posts.
+- `Yup` to provide a validation schema and error messages for our formik form.
+- `React-Query` to perform Http requests (POST&GET).
+- `Tabler` to Provide Icons.
+- `Mantin UI` to provide ready Ui components and color scheme change for Usage in the app.
+- `Next 13.2.4` as our framework (Used page router version of next as Mantin doesn't support app router yet) 
+
+PS: I choose to only render 4 blog posts in the app as the gibberish text coming from api is really unneccessary and rendring all 100 posts would have been useless.
